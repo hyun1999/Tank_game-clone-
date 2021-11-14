@@ -9,12 +9,12 @@ from typing import List
 
 
 class Level(SceneBase):
-    """Сцена уровня"""
+    """Stage of the level"""
     score_to_win = 3
 
     def __init__(self, filename: str, score: List[int] = None):
-        """Инициализирует новую сцену уровня, построенную по карте из указанного файла.
-        Поиск файла происходит в папке ./levels/"""
+        """Initializes a new level scene built on the map from the specified file.
+        The file is searched in the folder ./levels/"""
 
         super().__init__()
         self.filename = filename
@@ -33,7 +33,7 @@ class Level(SceneBase):
         self.tank1 = Tank(*grid.cell_to_screen(grid_x, MAP_SIZE[1] - 2), True, self.all_sprites)
         self.tank2 = Tank(*grid.cell_to_screen(grid_x, 0), False, self.all_sprites)
 
-        self.start_message = ScreenMessage("Приготовиться!", font_medium, 2, self.all_sprites)
+        self.start_message = ScreenMessage("Ready!", font_medium, 2, self.all_sprites)
         self.end_message = None
 
     def update(self) -> None:
@@ -61,13 +61,13 @@ class Level(SceneBase):
 
         if finish_round:
             if self.score == [self.score_to_win, self.score_to_win]:
-                end_message_text = 'Ничья!'
+                end_message_text = 'Draw!'
                 self.game_finished = True
             elif self.score[0] == self.score_to_win:
-                end_message_text = 'Игрок 1 победил!'
+                end_message_text = 'Player 1 win!'
                 self.game_finished = True
             elif self.score[1] == self.score_to_win:
-                end_message_text = 'Игрок 2 победил!'
+                end_message_text = 'Player 2 win!'
                 self.game_finished = True
             else:
                 end_message_text = f'{self.score[0]} : {self.score[1]}'

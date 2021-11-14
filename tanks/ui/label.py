@@ -2,7 +2,7 @@ import pygame
 
 
 class Label(pygame.sprite.Sprite):
-    """Элемент UI, отображает строку текста на экране."""
+    """UI 요소, 화면에 텍스트 줄을 표시합니다."""
 
     def __init__(self, center_x: float, center_y: float, text: str, font: pygame.font.Font,
                  *groups: pygame.sprite.Group):
