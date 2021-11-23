@@ -10,6 +10,7 @@ class GridSpriteBase(pygame.sprite.Sprite):
     destroyable = False
     tank_obstacle = True
     shell_obstacle = True
+    die_obstacle = False
     layer = 0
 
     def __init__(self, grid_x: int, grid_y: int, *groups: pygame.sprite.Group):
@@ -55,3 +56,13 @@ class Mirror(GridSpriteBase):
 class Lava(GridSpriteBase):
     sheet = load_image('lava.png')
     char = '-'    
+    shell_obstacle = False
+    tank_obstacle = False
+    die_obstacle = True
+
+class Wood(GridSpriteBase):
+    sheet = load_image('wood.png')
+    char = '='    
+    layer = 0
+    tank_obstacle = False
+    shell_obstacle = False

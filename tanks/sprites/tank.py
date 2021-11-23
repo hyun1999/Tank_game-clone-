@@ -9,16 +9,18 @@ from tanks.sounds import load_sound
 
 
 class Tank(pygame.sprite.Sprite):
-    """Класс танка"""
+    """탱크 클래스"""
     distance_to_animate = PIXEL_RATIO * 2
     shell_spawn_offset = PIXEL_RATIO
     shoot_cooldown = 1
     speed = 150
 
+    #탱크 사운드, 이미지
     shoot_sound = load_sound('tank_fire.flac')
     explosion_sound = load_sound('tank_explosion.flac')
 
     frames = cut_sheet(load_image('tanks.png'), 8, 2)
+
 
     def __init__(self, x: float, y: float, is_default_player: bool, *groups: pygame.sprite.Group):
         super().__init__(*groups)
@@ -73,9 +75,9 @@ class Tank(pygame.sprite.Sprite):
                     if (isinstance(sprite, GridSpriteBase) and sprite.tank_obstacle) \
                             or isinstance(sprite, Tank):
                         return
-                    if isinstance(sprite, Shell):
+                    if isinstance(sprite, Shell) or \
+                        (isinstance(sprite, GridSpriteBase) and sprite.die_obstacle) :
                         self.kill()
-                        sprite.kill()
                         return
 
         if new_rect.x + self.rect.size[0] > field.right or new_rect.x < field.left \
@@ -87,7 +89,7 @@ class Tank(pygame.sprite.Sprite):
         self.rect = new_rect
 
     def shoot(self) -> None:
-        """Метод для инициализации выстрела"""
+        """샷 초기화 방법"""
         off = self.shell_spawn_offset
         pos = None
         if self.direction == NORTH:
@@ -106,7 +108,7 @@ class Tank(pygame.sprite.Sprite):
         super().kill()
 
     def _get_image(self) -> pygame.Surface:
-        """Защищенный метод для получения картинки на основе направления куда смотрит танк"""
+        """탱크가 보는 방향을 기준으로 사진을 얻는 보호 방법"""
         frame = 0
         if self.distance > self.distance_to_animate:
             self.frame += 1 if self.frame % 2 == 0 else -1
@@ -128,7 +130,7 @@ class Tank(pygame.sprite.Sprite):
 
 
 class TankControlScheme:
-    """Класс схемы управления танком"""
+    """탱크 제어 회로 클래스"""
     def __init__(self, up: int, right: int, down: int, left: int, shoot: int):
         self._up = up
         self._right = right
@@ -137,7 +139,7 @@ class TankControlScheme:
         self._shoot = shoot
 
     def get_movement(self) -> int:
-        """Метод для получения направления на основе нажатой клавиши"""
+        """키를 눌러 방향을 얻는 방법"""
         if pygame.key.get_pressed()[self._up]:
             return NORTH
         elif pygame.key.get_pressed()[self._right]:
@@ -148,17 +150,17 @@ class TankControlScheme:
             return WEST
 
     def shoot_pressed(self) -> bool:
-        """Проверка на нажатие кнопки выстрела"""
+        """샷 버튼 확인"""
         return pygame.key.get_pressed()[self._shoot]
 
     @classmethod
     def default(cls) -> 'TankControlScheme':
-        """Создание объекта класса TankControlScheme с клавишами управления для 1-го игрока
-        (WASD - движение, Spacebar - выстрел)"""
+        """첫 번째 플레이어의 컨트롤 키를 사용하여 TankControlScheme 클래스 개체 생성
+        (WASD - 모션, 스페이스바 - 샷)"""
         return cls(pygame.K_w, pygame.K_d, pygame.K_s, pygame.K_a, pygame.K_SPACE)
 
     @classmethod
     def alternative(cls) -> 'TankControlScheme':
-        """Создание объекта класса TankControlScheme с клавишами управления для 2-го игрока
-        (движение стрелками, Enter - выстрел)"""
+        """두 번째 플레이어의 컨트롤 키를 사용하여 TankControlScheme 클래스 개체 생성
+        (화살표 이동, 입력 - 샷)"""
         return cls(pygame.K_UP, pygame.K_RIGHT, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RETURN)
