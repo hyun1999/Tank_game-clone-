@@ -12,8 +12,8 @@ class Tank(pygame.sprite.Sprite):
     """Класс танка"""
     distance_to_animate = PIXEL_RATIO * 2
     shell_spawn_offset = PIXEL_RATIO
-    shoot_cooldown = 1
-    speed = 150
+    shoot_cooldown = 2.5
+    speed = 50
 
     shoot_sound = load_sound('tank_fire.flac')
     explosion_sound = load_sound('tank_explosion.flac')
