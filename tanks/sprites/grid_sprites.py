@@ -4,7 +4,7 @@ from tanks.images import load_image
 
 
 class GridSpriteBase(pygame.sprite.Sprite):
-    """Базовый класс спрайта, расположенного по сетке, используется для наследования."""
+    """그리드에 위치한 스프라이트 기본 클래스는 상속에 사용됩니다."""
     sheet = None
     char = None
     destroyable = False
@@ -47,3 +47,8 @@ class Spike(GridSpriteBase):
     sheet = load_image('spike.png')
     char = 'x'
     shell_obstacle = False
+
+class Mirror(GridSpriteBase):
+    sheet = load_image('mirror.png')
+    char = '+'
+    
