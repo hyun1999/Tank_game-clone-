@@ -68,7 +68,7 @@ class Tank(pygame.sprite.Sprite):
 
         new_pos = self.pos + velocity_vec
         new_rect = pygame.Rect(new_pos.x, new_pos.y, *self.rect.size)
-
+#탱크와 구조물 관계
         for group in self.groups():
             for sprite in group:
                 if sprite is not self and new_rect.colliderect(sprite.rect):
