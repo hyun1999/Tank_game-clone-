@@ -52,3 +52,6 @@ class Mirror(GridSpriteBase):
     sheet = load_image('mirror.png')
     char = '+'
     
+class Lava(GridSpriteBase):
+    sheet = load_image('lava.png')
+    char = '-'    
