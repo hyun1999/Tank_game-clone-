@@ -58,8 +58,6 @@ class Shell(pygame.sprite.Sprite):
                                 self.kill()
                             elif sprite.shell_obstacle:
                                 self.kill()
-                            elif sprite.die_obstacle:
-                                self.kill()
                         elif isinstance(sprite, Shell):
                             sprite.kill()
                             self.kill()
