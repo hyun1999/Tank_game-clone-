@@ -12,3 +12,5 @@ def tick() -> None:
 def delta_time() -> float:
     """이전 프레임에서 경과한 시간(초)을(를) 반환합니다."""
     return _delta_time
+
+    

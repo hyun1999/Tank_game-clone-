@@ -61,7 +61,14 @@ class Shell(pygame.sprite.Sprite):
                         elif isinstance(sprite, Shell):
                             sprite.kill()
                             self.kill()
+                        elif (isinstance(sprite, GridSpriteBase) and sprite.shell_speed_up):
+                            self.speedup()
+                            sprite.kill()
+                            return
 
+    def speedup(self) -> None:
+            self.speed = self.speed + 30
+            
     def kill(self) -> None:
         ShellExplosion(*self.pos, *self.groups())
         super().kill()

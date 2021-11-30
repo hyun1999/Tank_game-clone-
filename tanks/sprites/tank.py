@@ -1,4 +1,5 @@
 import pygame
+from tanks import sprites
 from tanks.constants import PIXEL_RATIO
 from tanks.directions import *
 from tanks.grid import get_rect
@@ -6,7 +7,8 @@ from tanks.time import delta_time
 from tanks.sprites import GridSpriteBase, Shell
 from tanks.images import load_image, cut_sheet
 from tanks.sounds import load_sound
-
+from datetime import timedelta
+import time
 
 class Tank(pygame.sprite.Sprite):
     """탱크 클래스"""
@@ -82,6 +84,10 @@ class Tank(pygame.sprite.Sprite):
                     if (isinstance(sprite, GridSpriteBase) and sprite.die_obstacle) :
                         self.kill()
                         return
+                    if (isinstance(sprite, GridSpriteBase) and sprite.speed_up):
+                        self.speedup()
+                        sprite.kill()
+                        return
 
         if new_rect.x + self.rect.size[0] > field.right or new_rect.x < field.left \
                 or new_rect.y + self.rect.size[1] > field.bottom or new_rect.y < field.top:
@@ -91,6 +97,10 @@ class Tank(pygame.sprite.Sprite):
         self.pos = new_pos
         self.rect = new_rect
 
+    def speedup(self) -> None:
+            self.speed = self.speed + 30
+        
+    
     def shoot(self) -> None:
         """샷 초기화 방법"""
         off = self.shell_spawn_offset
